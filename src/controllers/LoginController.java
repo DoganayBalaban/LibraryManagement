@@ -2,6 +2,7 @@ package controllers;
 
 import views.LoginView;
 import views.StudentMain;
+import views.LibraryAdminPanelView;
 import config.DatabaseConnection;
 import models.User;
 
@@ -29,9 +30,16 @@ public class LoginController {
                 if (loggedInUser != null) {
                     JOptionPane.showMessageDialog(loginView, "Login successful!");
 
-                    // Öğrenci ana ekranına yönlendir
-                    new StudentMain(loggedInUser);
-                    loginView.dispose(); // Mevcut login ekranını kapat
+                    // Kullanıcının rolüne göre yönlendirme
+                    if ("librarian".equalsIgnoreCase(loggedInUser.getRole())) {
+                        // Kullanıcı adı ve profil resmi için gerekli parametreyi oluşturma
+                        ImageIcon profileImage = new ImageIcon("resources/images/profile-placeholder.jpg"); // Profil resmi için geçici bir resim
+                        new LibraryAdminPanelView(loggedInUser.getName(), profileImage);
+                        loginView.dispose(); // Mevcut login ekranını kapat
+                    } else {
+                        new StudentMain(loggedInUser);
+                        loginView.dispose(); // Mevcut login ekranını kapat
+                    }
                 } else {
                     JOptionPane.showMessageDialog(loginView, "Invalid email or password!", "Error", JOptionPane.ERROR_MESSAGE);
                 }

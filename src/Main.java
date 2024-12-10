@@ -1,12 +1,5 @@
-import config.DatabaseConnection;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import views.LoginView;
 import controllers.LoginController;
-import controllers.RegisterController;
-import views.RegisterView;
+import views.LoginView;
 
 public class Main {
     public static void main(String[] args) {

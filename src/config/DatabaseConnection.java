@@ -17,6 +17,7 @@ public class DatabaseConnection {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Veritabanına bağlantı başarılı!");
         } catch (SQLException e) {
+            System.err.println("Veritabanına bağlanırken bir hata oluştu. Lütfen ayarları kontrol edin.");
             e.printStackTrace();
         }
     }
@@ -33,6 +34,36 @@ public class DatabaseConnection {
     }
 
     public Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                System.out.println("Bağlantı yeniden oluşturuldu.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Bağlantı yeniden oluşturulurken bir hata oluştu.");
+            e.printStackTrace();
+        }
         return connection;
+    }
+
+    public void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+                System.out.println("Veritabanı bağlantısı kapatıldı.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Bağlantı kapatılırken bir hata oluştu.");
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isConnectionValid() {
+        try {
+            return connection != null && connection.isValid(2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
