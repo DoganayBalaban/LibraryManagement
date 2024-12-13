@@ -1,16 +1,24 @@
 package views;
 
 import config.DatabaseConnection;
+import factory.BookFactory;
+import models.Book;
+import observer.Observer;
+import observer.Subject;
+
 import java.awt.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class LibraryAdminPanelView extends JFrame {
+public class LibraryAdminPanelView extends JFrame  {
 
     private JTable bookTable;
     private DefaultTableModel tableModel;
     private JPanel mainContentPanel;
+
 
     public LibraryAdminPanelView(String loggedInUserName, ImageIcon profileImage) {
         setTitle("Kütüphaneci Yönetim Paneli");
@@ -140,7 +148,8 @@ public class LibraryAdminPanelView extends JFrame {
         JTextField txtAuthor = new JTextField(15);
         String[] statuses = {"Rafta", "Ödünçte", "Kayıp"};
         JComboBox<String> cmbStatus = new JComboBox<>(statuses);
-        JTextField txtTur = new JTextField(10);
+        String[] types = {"Roman", "Bilim"};  // Tür seçenekleri
+        JComboBox<String> cmbType = new JComboBox<>(types);  // Tür seçim combobox'ı
 
         JPanel panel = new JPanel(new GridLayout(4, 2));
         panel.add(new JLabel("Kitap Adı:"));
@@ -150,28 +159,32 @@ public class LibraryAdminPanelView extends JFrame {
         panel.add(new JLabel("Durum:"));
         panel.add(cmbStatus);
         panel.add(new JLabel("Tür:"));
-        panel.add(txtTur);
+        panel.add(cmbType);
 
         int result = JOptionPane.showConfirmDialog(this, panel, "Yeni Kitap Ekle", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             String title = txtTitle.getText();
             String author = txtAuthor.getText();
             String status = (String) cmbStatus.getSelectedItem();
-            String tur = txtTur.getText();
+            String type = (String) cmbType.getSelectedItem();  // Seçilen tür
 
             try {
+                // Kitap nesnesi oluşturuluyor
+                Book book = BookFactory.createBook(0, title, author, status, false, type);  // 0 id, false loaned varsayımı
+
+                // Veritabanına ekleme
                 Connection connection = DatabaseConnection.getInstance().getConnection();
                 String query = "INSERT INTO books (title, author, status, tur) VALUES (?, ?, ?, ?)";
                 PreparedStatement statement = connection.prepareStatement(query);
-                statement.setString(1, title);
-                statement.setString(2, author);
-                statement.setString(3, status);
-                statement.setString(4, tur);
+                statement.setString(1, book.getTitle());
+                statement.setString(2, book.getAuthor());
+                statement.setString(3, book.getStatus());
+                statement.setString(4, book.getType());  // Tür bilgisi
 
                 int rowsInserted = statement.executeUpdate();
                 if (rowsInserted > 0) {
                     JOptionPane.showMessageDialog(this, "Kitap başarıyla eklendi!", "Başarılı", JOptionPane.INFORMATION_MESSAGE);
-                    tableModel.addRow(new Object[]{tableModel.getRowCount() + 1, title, author, status, tur});
+                    tableModel.addRow(new Object[]{tableModel.getRowCount() + 1, title, author, status, type});  // Tür de eklendi
                 }
                 connection.close();
             } catch (SQLException e) {
@@ -180,7 +193,6 @@ public class LibraryAdminPanelView extends JFrame {
             }
         }
     }
-
     private void editBook() {
         int selectedRow = bookTable.getSelectedRow();
         if (selectedRow != -1) {

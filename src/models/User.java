@@ -1,6 +1,9 @@
 package models;
 
-public class User {
+
+
+
+public class User  {
     private int id;
     private String name;
     private String email;
@@ -12,6 +15,7 @@ public class User {
         this.email = email;
         this.role = role;
     }
+
 
     public int getId() {
         return id;
@@ -38,4 +42,6 @@ public class User {
                 ", role='" + role + '\'' +
                 '}';
     }
+
+
 }

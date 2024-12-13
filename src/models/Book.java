@@ -1,6 +1,6 @@
 package models;
 
-public class Book {
+public abstract class Book {
     private int id;
     private String title;
     private String author;
@@ -14,6 +14,9 @@ public class Book {
         this.status = status;
         this.loaned = loaned;
     }
+
+
+    public abstract String getType();
 
     // Getter'lar ve Setter'lar
     public int getId() {
