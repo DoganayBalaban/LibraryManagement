@@ -22,3 +22,41 @@ Arayüz: Swing
 
 Tasarım Desenleri: Singleton, Factory, Observer, State
 
+Kurulum
+
+Projeyi klonlayın:
+
+git clone https://github.com/kullanici/kutuphane-yonetim-sistemi.git
+cd kutuphane-yonetim-sistemi
+
+Gereken kütüphaneleri ve bağımlılıkları indirin.
+
+Projeyi derlemek ve çalıştırmak için bir Java IDE kullanın (IntelliJ IDEA, Eclipse vb.).
+
+Uygulamayı başlatın ve arayüzden sisteme erişim sağlayın.
+
+Katkida Bulunma
+
+Projeye katkıda bulunmak için:
+
+Projeyi forklayın.
+
+Yeni bir dal oluşturun:
+
+git checkout -b yeni-ozellik
+
+Değişikliklerinizi yapın ve commit edin:
+
+git commit -m "Yeni bir özellik eklendi"
+
+Değişikliklerinizi ana repoya geri gönderin:
+
+git push origin yeni-ozellik
+
+Bir Pull Request oluşturun.
+
+Ekip
+
+Ahmet Çalışkan (https://github.com/ahmetcaliskan63)
+
+Ayşe Kaya (https://github.com/DoganayBalaban)
