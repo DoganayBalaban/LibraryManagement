@@ -59,4 +59,4 @@ Ekip
 
 Ahmet Çalışkan (https://github.com/ahmetcaliskan63)
 
-Ayşe Kaya (https://github.com/DoganayBalaban)
+Doganay Balaban (https://github.com/DoganayBalaban)
